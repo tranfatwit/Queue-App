@@ -1,24 +1,13 @@
-/* @formatter:off
- *
- * Dave Rosenberg
- * Comp 2000 - Data Structures
- * Lab: Queue App
- * Fall, 2021
- *
- * Usage restrictions:
- *
- * You may use this code for exploration, experimentation, and furthering your
- * learning for this course. You may not use this code for any other
- * assignments, in my course or elsewhere, without explicit permission, in
- * advance, from myself (and the instructor of any other course).
- *
- * Further, you may not post nor otherwise share this code with anyone other than
- * current students in my sections of this course. Violation of these usage
- * restrictions will be considered a violation of the Wentworth Institute of
- * Technology Academic Honesty Policy.
- *
- * Do not remove this notice.
- *
+/*
+ * @formatter:off Dave Rosenberg Comp 2000 - Data Structures Lab: Queue App Fall,
+ * 2021 Usage restrictions: You may use this code for exploration, experimentation,
+ * and furthering your learning for this course. You may not use this code for any
+ * other assignments, in my course or elsewhere, without explicit permission, in
+ * advance, from myself (and the instructor of any other course). Further, you may
+ * not post nor otherwise share this code with anyone other than current students in
+ * my sections of this course. Violation of these usage restrictions will be
+ * considered a violation of the Wentworth Institute of Technology Academic Honesty
+ * Policy. Do not remove this notice.
  * @formatter:on
  */
 
@@ -56,7 +45,6 @@ import java.util.Queue ;
  *     <li>major restructuring</li>
  *     <li>clean up</li>
  *     </ul>
- * 
  * @author Fabio Tran
  * @author Jeral Lofton
  * @version 2.1.0 2021-11-01 finish implementation
@@ -67,7 +55,8 @@ public final class Station
     // class-wide/shared information
     private static int nextId = 1 ; // enables automatic id assignment
 
-    private static TrainSimulation simulationCallback ;   // provides access to simulation state
+    private static TrainSimulation simulationCallback ;   // provides access to
+                                                          // simulation state
 
     // per-instance fields
 
@@ -93,8 +82,8 @@ public final class Station
         this.platforms = new HashMap<>() ;
 
         Direction oneDirection = onRoute.getStyle() == RouteStyle.LINEAR
-                                        ? Direction.OUTBOUND
-                                        : Direction.CLOCKWISE ;
+            ? Direction.OUTBOUND
+                : Direction.CLOCKWISE ;
         this.platforms.put( oneDirection, new LinkedList<Passenger>() ) ;
         this.platforms.put( oneDirection.reverse(), new LinkedList<Passenger>() ) ;
 
@@ -108,7 +97,7 @@ public final class Station
 
     /**
      * Retrieves the id for this station
-     * 
+     *
      * @return the station id was set when the station was instantiated
      */
     public int getId()
@@ -120,7 +109,7 @@ public final class Station
 
     /**
      * Retrieves the location for this station
-     * 
+     *
      * @return the location object for this station
      */
     public Location getLocation()
@@ -179,7 +168,7 @@ public final class Station
 
     /**
      * Superset of functionality of toString()
-     * 
+     *
      * @return all instance information formatted for human consumption
      */
     public String describe()
@@ -204,17 +193,17 @@ public final class Station
 
     /**
      * Log the arrival of a train
-     * 
+     *
      * @param aTrain
      *     the train that arrived
      */
     public void trainArrived( Train aTrain )
         {
         Station.simulationCallback.getLogger()
-                        .printf( "%n%s arrived at %s's %s platform%n",
-                                 aTrain,
-                                 this,
-                                 aTrain.getLocation().getDirection() ) ;
+                                  .printf( "%n%s arrived at %s's %s platform%n",
+                                           aTrain,
+                                           this,
+                                           aTrain.getLocation().getDirection() ) ;
 
         // TODO make this more interesting ???
 
@@ -223,7 +212,7 @@ public final class Station
 
     /**
      * Handle a passenger arrival (disembarking from a train)
-     * 
+     *
      * @param aPassenger
      *     the arriving passenger
      * @param aTrain
@@ -245,7 +234,7 @@ public final class Station
 
     /**
      * The passenger has completed their journey and is leaving the simulation
-     * 
+     *
      * @param aPassenger
      *     the happy passenger
      */
@@ -255,12 +244,12 @@ public final class Station
         aPassenger.exitStation() ;
 
         Station.simulationCallback.getLogger()
-                        .printf( "%s arrived after waiting %,d ticks and riding %,d ticks; total travel time was %,d ticks%n",
-                                 aPassenger,
-                                 aPassenger.getTimeWaiting(),
-                                 aPassenger.getTimeRiding(),
-                                 aPassenger.getTotalTime() ) ;
-        
+                                  .printf( "%s arrived after waiting %,d ticks and riding %,d ticks; total travel time was %,d ticks%n",
+                                           aPassenger,
+                                           aPassenger.getTimeWaiting(),
+                                           aPassenger.getTimeRiding(),
+                                           aPassenger.getTotalTime() ) ;
+
         // TODO accumulate statistics
 
         }   // end exit()
@@ -269,7 +258,7 @@ public final class Station
     /**
      * Indicate whether there are any passengers waiting to go in the specified
      * direction
-     * 
+     *
      * @param goingInDirection
      *     the direction the train is traveling
      * @return true if the platform exists and has at least one passenger on it and
@@ -280,15 +269,15 @@ public final class Station
         Queue<Passenger> selectedPlatform = this.platforms.get( goingInDirection ) ;
 
         return selectedPlatform == null
-                    ? false
-                    : !selectedPlatform.isEmpty() ;
+            ? false
+                : !selectedPlatform.isEmpty() ;
 
         }   // hasWaitingPassenger()
 
 
     /**
      * Returns the next passenger waiting to go in the specified direction
-     * 
+     *
      * @param goingInDirection
      *     the direction the train is traveling
      * @return the first passenger on the specified platform or null if the platform
@@ -297,15 +286,21 @@ public final class Station
     public Passenger getWaitingPassenger( Direction goingInDirection )
         {
         Queue<Passenger> selectedPlatform = this.platforms.get( goingInDirection ) ;
-
-        return null ;   // TODO retrieve a Passenger from this platform if at least one in the queue
+  
+        // DONE
+        if ( selectedPlatform != null )
+            {
+            return selectedPlatform.peek() ; // returns first passenger on platform
+                                             // or null if there aren't any
+            }
+        return null ; // returns null if platform doesn't exist
 
         }   // getWaitingPassenger()
 
 
     /**
      * Guide a passenger entering this station to the appropriate platform
-     * 
+     *
      * @param aPassenger
      *     a passenger traveling from here to elsewhere
      */
@@ -314,27 +309,35 @@ public final class Station
         Location from = this.location ;
         Location to = aPassenger.getDestination().getLocation() ;
 
-        Direction platformSelector = null ; // TODO get direction from TrainRoute
-                                // then add the Passenger to the appropriate platform queue
+        // DONE
+        Direction platformSelector = TrainRoute.whichDirection( from, to ) ; // Gets
+                                                                             // direction
+        Queue<Passenger> selectedPlatform = this.platforms.get( platformSelector ) ; // Selects
+                                                                                     // platform
+                                                                                     // based
+                                                                                     // on
+                                                                                     // direction
+
+        // Adds passenger to proper platform
+        selectedPlatform.add( aPassenger ) ;
 
         Station.simulationCallback.getLogger()
-                        .printf( "%s is waiting on %s's %s platform heading to %s%n",
-                                 aPassenger,
-                                 this,
-                                 platformSelector,
-                                 Station.simulationCallback.getTrainRoute().getStationAt( to ) ) ;
+                                  .printf( "%s is waiting on %s's %s platform heading to %s%n",
+                                           aPassenger,
+                                           this,
+                                           platformSelector,
+                                           Station.simulationCallback.getTrainRoute()
+                                                                     .getStationAt( to ) ) ;
 
         }   // end enter()
 
-    
     // TODO complete this
-    
-    
+
     /*
      * semi-public utility methods
      */
-    
-    
+
+
     /**
      * Enable callback to the simulation to access:
      * <ul>
@@ -353,13 +356,13 @@ public final class Station
     static void setSimulationCallback( TrainSimulation currentSimulation )
         {
         Station.simulationCallback = currentSimulation ;
-        
+
         }   // end setSimulationCallback()
 
 
     /**
      * Test driver
-     * 
+     *
      * @param args
      *     -unused-
      * @throws FileNotFoundException
@@ -384,8 +387,8 @@ public final class Station
                                aStation,
                                aStation.getLocation(),
                                aStation.describe() ) ;
-            }   // end foreach()
-        
+            }   // end for-each()
+
         }   // end main()
 
     }   // end class TrainRoute
