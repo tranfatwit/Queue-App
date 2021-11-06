@@ -206,6 +206,7 @@ public final class Station
                                            aTrain.getLocation().getDirection() ) ;
 
         // TODO make this more interesting ???
+        // print how many ticks it took for the train to arrive?
 
         }   // end trainArrived()
 
@@ -228,6 +229,8 @@ public final class Station
         exit( aPassenger ) ;
 
         // TODO additional logging ?
+        // settimedisembarked for passenger
+        // settimeexited for passenger
 
         }   // end passengerDisembarked()
 
@@ -251,7 +254,15 @@ public final class Station
                                            aPassenger.getTotalTime() ) ;
 
         // TODO accumulate statistics
-
+        Station.simulationCallback.getStatistics().addPassenger();  // increments total passengers
+        System.out.println(  Station.simulationCallback.getStatistics().getPassenger() ) ;
+        // total number of passengers who completed their trips
+        // minimum, maximum, and median amounts of time passengers waited on platforms
+        // minimum, maximum, and median amounts of time passengers rode on trains
+        // total amount of time for their journeys
+        
+        
+        
         }   // end exit()
 
 
@@ -286,7 +297,7 @@ public final class Station
     public Passenger getWaitingPassenger( Direction goingInDirection )
         {
         Queue<Passenger> selectedPlatform = this.platforms.get( goingInDirection ) ;
-  
+
         // DONE
         if ( selectedPlatform != null )
             {
@@ -387,8 +398,8 @@ public final class Station
                                aStation,
                                aStation.getLocation(),
                                aStation.describe() ) ;
-            }   // end for-each()
-
+            }   // end for-each()        
+        
         }   // end main()
 
     }   // end class TrainRoute

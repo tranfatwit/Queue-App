@@ -1,24 +1,13 @@
-/* @formatter:off
- *
- * Dave Rosenberg
- * Comp 2000 - Data Structures
- * Lab: Queue App
- * Fall, 2021
- *
- * Usage restrictions:
- *
- * You may use this code for exploration, experimentation, and furthering your
- * learning for this course. You may not use this code for any other
- * assignments, in my course or elsewhere, without explicit permission, in
- * advance, from myself (and the instructor of any other course).
- *
- * Further, you may not post nor otherwise share this code with anyone other than
- * current students in my sections of this course. Violation of these usage
- * restrictions will be considered a violation of the Wentworth Institute of
- * Technology Academic Honesty Policy.
- *
- * Do not remove this notice.
- *
+/*
+ * @formatter:off Dave Rosenberg Comp 2000 - Data Structures Lab: Queue App Fall,
+ * 2021 Usage restrictions: You may use this code for exploration, experimentation,
+ * and furthering your learning for this course. You may not use this code for any
+ * other assignments, in my course or elsewhere, without explicit permission, in
+ * advance, from myself (and the instructor of any other course). Further, you may
+ * not post nor otherwise share this code with anyone other than current students in
+ * my sections of this course. Violation of these usage restrictions will be
+ * considered a violation of the Wentworth Institute of Technology Academic Honesty
+ * Policy. Do not remove this notice.
  * @formatter:on
  */
 
@@ -49,7 +38,6 @@ import java.util.Random ;
  *     <li>add callback mechanism to enable entity classes to share simulation
  *     resources
  *     </ul>
- * 
  * @author Fabio Tran
  * @author Jeral Lofton
  * @author Kenny Vo
@@ -58,10 +46,10 @@ import java.util.Random ;
 public final class TrainSimulation
     {
     // instance variables
-    
+
     // these are all package private to enable the various entities in the simulation
     // to access them easily
-    
+
     /** configuration specification */
     private Configuration theConfiguration ;
 
@@ -70,16 +58,19 @@ public final class TrainSimulation
 
     /** simulation time in ticks */
     private int currentTime ;
-    
+
     /** random number generator instance for this simulation run */
     private Random pseudoRandom ;
-    
+
     /** logging support */
     private Logger logger ;
 
+    /** accumulate statistics */
+    private Statistics statistics ;
+
     /**
      * set up the simulation based upon the settings in the configuration file
-     * 
+     *
      * @throws IOException
      *     if the logs folder doesn't exist and can't be created
      */
@@ -87,15 +78,14 @@ public final class TrainSimulation
         {
         // create log
         this.logger = new Logger( "TrainSimulation" ) ;
-        
-        
+        this.statistics = new Statistics() ;
+
         // enable callback in all entities
         TrainRoute.setSimulationCallback( this ) ;
         Station.setSimulationCallback( this ) ;
         Train.setSimulationCallback( this ) ;
         Passenger.setSimulationCallback( this ) ;
-        
-        
+
         // load the configuration
         this.theConfiguration = new Configuration() ;
 
@@ -104,10 +94,10 @@ public final class TrainSimulation
 
         // log the configuration
         this.logger.logConfiguration( this.theConfiguration ) ;
-        
+
         // create and initialize the pseudo-random number generator
         this.pseudoRandom = new Random() ;
-        
+
         // seed it if specified in configuration
         long seed = this.theConfiguration.getSeed() ;
 
@@ -118,13 +108,12 @@ public final class TrainSimulation
             }
         else if ( seed != 0 )
             {
-            // use configuration seed - will produce the same sequence each run 
+            // use configuration seed - will produce the same sequence each run
             this.pseudoRandom.setSeed( seed ) ;
             }
-        
+
         this.currentTime = 0 ;
 
-        
         // build the route and populate stations with initial set of passengers
         System.out.printf( "Setting up...%n" ) ;
         setup() ;
@@ -171,16 +160,16 @@ public final class TrainSimulation
 
         // determine the number of passengers to create
         int newPassengerCount = minimumPassengersCount == maximumPassengersCount
-                                   ? minimumPassengersCount
-                                   : this.pseudoRandom.nextInt( maximumPassengersCount -
-                                                                minimumPassengersCount ) +
-                                       minimumPassengersCount + 1 ;
+            ? minimumPassengersCount
+                : this.pseudoRandom.nextInt( maximumPassengersCount -
+                                             minimumPassengersCount ) +
+                  minimumPassengersCount + 1 ;
 
         this.logger.printf( "%nGenerating %d passenger%s:%n%n",
-                       newPassengerCount,
-                       ( newPassengerCount == 1
-                           ? ""
-                           : "s" ) ) ;
+                            newPassengerCount,
+                            ( newPassengerCount == 1
+                                ? ""
+                                    : "s" ) ) ;
 
         for ( int passengerCount = 1 ;
               passengerCount <= newPassengerCount ;
@@ -191,10 +180,10 @@ public final class TrainSimulation
 
         }   // end createPassengers
 
-    
     /*
      * callback support
      */
+
 
     /**
      * Utility method to retrieve the configuration.
@@ -207,6 +196,7 @@ public final class TrainSimulation
 
         }   // end getConfiguration()
 
+
     /**
      * Utility method to retrieve the current time/tick.
      *
@@ -218,10 +208,10 @@ public final class TrainSimulation
 
         }   // end getCurrentTime()
 
-    
+
     /**
      * Utility method to set the current time/tick.
-     * 
+     *
      * @param newTime
      *     the new value for currentTime
      * @return the previous time/tick
@@ -230,51 +220,51 @@ public final class TrainSimulation
         {
         int savedTime = this.currentTime ;
         this.currentTime = newTime ;
-        
+
         return savedTime ;
 
         }   // end setCurrentTime()
-    
-    
+
+
     /**
      * Utility method to retrieve the current Logger instance
-     * 
+     *
      * @return the current Logger
      */
     public Logger getLogger()
         {
         return this.logger ;
-        
+
         }   // end getLogger()
-    
-    
+
+
     /**
      * Utility method to retrieve the current Random instance
-     * 
+     *
      * @return the current Random
      */
     public Random getPseudoRandom()
         {
         return this.pseudoRandom ;
-        
+
         }   // end getPseudoRandom()
-    
-    
+
+
     /**
      * Utility method to retrieve the current TrainRoute instance
-     * 
+     *
      * @return the current TrainRoute
      */
     public TrainRoute getTrainRoute()
         {
         return this.theRoute ;
-        
+
         }   // end getTrainRoute()
 
-    
     /*
      * miscellaneous private utilities
      */
+
 
     /**
      * Utility method to write simulation state into the log
@@ -291,7 +281,19 @@ public final class TrainSimulation
         this.logger.printf( this.theRoute.describe() ) ;
 
         }   // end logSnapshot()
+    
 
+    /**
+     * Utility method to retrieve the current Statistic instance 
+     *
+     * @return the current Statistic
+     */
+    public Statistics getStatistics()
+        {
+        return this.statistics ;
+
+        }   // end getStatistics()
+    
 
     /**
      * Utility method to report concluding statistics
@@ -299,7 +301,7 @@ public final class TrainSimulation
     private void reportStatistics()
         {
         // TODO implement this
-        
+
         }   // end statistics()
 
 
@@ -310,9 +312,9 @@ public final class TrainSimulation
         {
         PairedLimit passengerCountLimits =
                                         this.theConfiguration.getPassengers()[ Configuration.PASSENGERS_PER_TICK ] ;
-        
+
         int ticks = this.theConfiguration.getTicks() ;
-        
+
         // TODO complete this
 
         }   // end run
@@ -345,7 +347,7 @@ public final class TrainSimulation
                             numberOfStations,
                             ( numberOfStations == 1
                                 ? ""
-                                : "s" ) ) ;
+                                    : "s" ) ) ;
 
         for ( int stationLocation : this.theConfiguration.getStations() )
             {
@@ -365,7 +367,7 @@ public final class TrainSimulation
                             numberOfTrains,
                             ( numberOfTrains == 1
                                 ? ""
-                                : "s" ) ) ;
+                                    : "s" ) ) ;
 
         for ( TrainSpecification trainSpecification : this.theConfiguration.getTrains() )
             {
@@ -397,12 +399,15 @@ public final class TrainSimulation
      * @throws IOException
      *     if the logs folder doesn't exist and it can't be created
      */
-    public static void main( String[] args ) throws FileNotFoundException, IOException
+    public static void main( String[] args )
+        throws FileNotFoundException, IOException
         {
         TrainSimulation theSimulation = null ;
+
         try
             {
-            // create TrainSimulation instance - loads the configuration and pre-populates
+            // create TrainSimulation instance - loads the configuration and
+            // pre-populates
             // the Stations with Passengers
             theSimulation = new TrainSimulation() ;
 
