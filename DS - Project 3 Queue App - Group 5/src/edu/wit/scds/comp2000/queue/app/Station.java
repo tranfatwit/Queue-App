@@ -254,15 +254,26 @@ public final class Station
                                            aPassenger.getTotalTime() ) ;
 
         // TODO accumulate statistics
-        Station.simulationCallback.getStatistics().addPassenger();  // increments total passengers
-        System.out.println(  Station.simulationCallback.getStatistics().getPassenger() ) ;
-        // total number of passengers who completed their trips
-        // minimum, maximum, and median amounts of time passengers waited on platforms
-        // minimum, maximum, and median amounts of time passengers rode on trains
-        // total amount of time for their journeys
-        
-        
-        
+        Station.simulationCallback.getStatistics().updateCompletedTrips() ;  // increments
+                                                                             // completed
+                                                                             // trips
+
+        Station.simulationCallback.getStatistics()
+                                  .updateWaitTime( aPassenger.getTimeWaiting() ) ; // updates
+                                                                                   // wait
+                                                                                   // time
+                                                                                   // statistics
+        Station.simulationCallback.getStatistics()
+                                  .updateRideTime( aPassenger.getTimeRiding() ) ; // updates
+                                                                                  // ride
+                                                                                  // time
+                                                                                  // statistics
+        Station.simulationCallback.getStatistics()
+                                  .updateTotalTime( aPassenger.getTotalTime() ) ; // updates
+                                                                                  // total
+                                                                                  // time
+                                                                                  // statistics
+
         }   // end exit()
 
 
@@ -398,8 +409,8 @@ public final class Station
                                aStation,
                                aStation.getLocation(),
                                aStation.describe() ) ;
-            }   // end for-each()        
-        
+            }   // end for-each()
+
         }   // end main()
 
     }   // end class TrainRoute
