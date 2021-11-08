@@ -45,8 +45,7 @@ import java.util.Queue ;
  *     <li>major restructuring</li>
  *     <li>clean up</li>
  *     </ul>
- * @author Fabio Tran
- * @author Jeral Lofton
+ * @author Fabio Tran, Jeral Lofton
  * @version 2.1.0 2021-11-01 finish implementation
  */
 public final class Station
@@ -229,8 +228,7 @@ public final class Station
         exit( aPassenger ) ;
 
         // TODO additional logging ?
-        // settimedisembarked for passenger
-        // settimeexited for passenger
+        // maybe log what time they left?
 
         }   // end passengerDisembarked()
 
@@ -253,26 +251,9 @@ public final class Station
                                            aPassenger.getTimeRiding(),
                                            aPassenger.getTotalTime() ) ;
 
-        // TODO accumulate statistics
-        Station.simulationCallback.getStatistics().updateCompletedTrips() ;  // increments
-                                                                             // completed
-                                                                             // trips
-
+        // DONE accumulate statistics
         Station.simulationCallback.getStatistics()
-                                  .updateWaitTime( aPassenger.getTimeWaiting() ) ; // updates
-                                                                                   // wait
-                                                                                   // time
-                                                                                   // statistics
-        Station.simulationCallback.getStatistics()
-                                  .updateRideTime( aPassenger.getTimeRiding() ) ; // updates
-                                                                                  // ride
-                                                                                  // time
-                                                                                  // statistics
-        Station.simulationCallback.getStatistics()
-                                  .updateTotalTime( aPassenger.getTotalTime() ) ; // updates
-                                                                                  // total
-                                                                                  // time
-                                                                                  // statistics
+                                     .updateListOfPassengers( aPassenger ) ;
 
         }   // end exit()
 
@@ -332,15 +313,15 @@ public final class Station
         Location to = aPassenger.getDestination().getLocation() ;
 
         // DONE
-        Direction platformSelector = TrainRoute.whichDirection( from, to ) ; // Gets
+        Direction platformSelector = TrainRoute.whichDirection( from, to ) ; // gets
                                                                              // direction
-        Queue<Passenger> selectedPlatform = this.platforms.get( platformSelector ) ; // Selects
+        Queue<Passenger> selectedPlatform = this.platforms.get( platformSelector ) ; // selects
                                                                                      // platform
                                                                                      // based
                                                                                      // on
                                                                                      // direction
 
-        // Adds passenger to proper platform
+        // adds passenger to proper platform
         selectedPlatform.add( aPassenger ) ;
 
         Station.simulationCallback.getLogger()
@@ -350,7 +331,7 @@ public final class Station
                                            platformSelector,
                                            Station.simulationCallback.getTrainRoute()
                                                                      .getStationAt( to ) ) ;
-
+     
         }   // end enter()
 
     // TODO complete this

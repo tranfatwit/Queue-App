@@ -26,20 +26,20 @@ TrainRoute 1: Linear; length: 20
 Creating 5 stations:
 
 Station 1 is Stationary at position 1 on TrainRoute 1
-	Inbound: []
 	Outbound: []
+	Inbound: []
 Station 2 is Stationary at position 4 on TrainRoute 1
-	Inbound: []
 	Outbound: []
+	Inbound: []
 Station 3 is Stationary at position 10 on TrainRoute 1
-	Inbound: []
 	Outbound: []
+	Inbound: []
 Station 4 is Stationary at position 15 on TrainRoute 1
-	Inbound: []
 	Outbound: []
+	Inbound: []
 Station 5 is Stationary at position 20 on TrainRoute 1
-	Inbound: []
 	Outbound: []
+	Inbound: []
 
 Creating 6 trains:
 
@@ -116,24 +116,24 @@ TrainRoute 1: Linear; length: 20
 
 5 stations:
 	Station 1 is Stationary at position 1 on TrainRoute 1
-	Inbound: []
 	Outbound: [Passenger 3, Passenger 4, Passenger 10, Passenger 19, Passenger 24, Passenger 26, Passenger 31, Passenger 32, Passenger 39, Passenger 50]
+	Inbound: []
 
 	Station 2 is Stationary at position 4 on TrainRoute 1
-	Inbound: [Passenger 1, Passenger 13, Passenger 16, Passenger 44]
 	Outbound: [Passenger 2, Passenger 5, Passenger 7, Passenger 11, Passenger 12, Passenger 20, Passenger 33, Passenger 34, Passenger 35, Passenger 45, Passenger 48, Passenger 49]
+	Inbound: [Passenger 1, Passenger 13, Passenger 16, Passenger 44]
 
 	Station 3 is Stationary at position 10 on TrainRoute 1
-	Inbound: [Passenger 6, Passenger 18, Passenger 23, Passenger 36, Passenger 46]
 	Outbound: [Passenger 38, Passenger 42]
+	Inbound: [Passenger 6, Passenger 18, Passenger 23, Passenger 36, Passenger 46]
 
 	Station 4 is Stationary at position 15 on TrainRoute 1
-	Inbound: [Passenger 9, Passenger 14, Passenger 17, Passenger 22, Passenger 27, Passenger 37, Passenger 41, Passenger 43]
 	Outbound: [Passenger 30]
+	Inbound: [Passenger 9, Passenger 14, Passenger 17, Passenger 22, Passenger 27, Passenger 37, Passenger 41, Passenger 43]
 
 	Station 5 is Stationary at position 20 on TrainRoute 1
-	Inbound: [Passenger 8, Passenger 15, Passenger 21, Passenger 25, Passenger 28, Passenger 29, Passenger 40, Passenger 47]
 	Outbound: []
+	Inbound: [Passenger 8, Passenger 15, Passenger 21, Passenger 25, Passenger 28, Passenger 29, Passenger 40, Passenger 47]
 
 6 trains:
 	Train 1 is Inbound at position 1 on TrainRoute 1 at Station 1; capacity: 20; on-board: 0
@@ -162,24 +162,24 @@ TrainRoute 1: Linear; length: 20
 
 5 stations:
 	Station 1 is Stationary at position 1 on TrainRoute 1
-	Inbound: []
 	Outbound: [Passenger 3, Passenger 4, Passenger 10, Passenger 19, Passenger 24, Passenger 26, Passenger 31, Passenger 32, Passenger 39, Passenger 50]
+	Inbound: []
 
 	Station 2 is Stationary at position 4 on TrainRoute 1
-	Inbound: [Passenger 1, Passenger 13, Passenger 16, Passenger 44]
 	Outbound: [Passenger 2, Passenger 5, Passenger 7, Passenger 11, Passenger 12, Passenger 20, Passenger 33, Passenger 34, Passenger 35, Passenger 45, Passenger 48, Passenger 49]
+	Inbound: [Passenger 1, Passenger 13, Passenger 16, Passenger 44]
 
 	Station 3 is Stationary at position 10 on TrainRoute 1
-	Inbound: [Passenger 6, Passenger 18, Passenger 23, Passenger 36, Passenger 46]
 	Outbound: [Passenger 38, Passenger 42]
+	Inbound: [Passenger 6, Passenger 18, Passenger 23, Passenger 36, Passenger 46]
 
 	Station 4 is Stationary at position 15 on TrainRoute 1
-	Inbound: [Passenger 9, Passenger 14, Passenger 17, Passenger 22, Passenger 27, Passenger 37, Passenger 41, Passenger 43]
 	Outbound: [Passenger 30]
+	Inbound: [Passenger 9, Passenger 14, Passenger 17, Passenger 22, Passenger 27, Passenger 37, Passenger 41, Passenger 43]
 
 	Station 5 is Stationary at position 20 on TrainRoute 1
-	Inbound: [Passenger 8, Passenger 15, Passenger 21, Passenger 25, Passenger 28, Passenger 29, Passenger 40, Passenger 47]
 	Outbound: []
+	Inbound: [Passenger 8, Passenger 15, Passenger 21, Passenger 25, Passenger 28, Passenger 29, Passenger 40, Passenger 47]
 
 6 trains:
 	Train 1 is Inbound at position 1 on TrainRoute 1 at Station 1; capacity: 20; on-board: 0

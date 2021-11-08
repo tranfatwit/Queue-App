@@ -38,9 +38,7 @@ import java.util.Random ;
  *     <li>add callback mechanism to enable entity classes to share simulation
  *     resources
  *     </ul>
- * @author Fabio Tran
- * @author Jeral Lofton
- * @author Kenny Vo
+ * @author Fabio Tran, Jeral Lofton, Kenny Vo
  * @version 2.1.0 2021-11-01 finish implementation
  */
 public final class TrainSimulation
@@ -281,10 +279,10 @@ public final class TrainSimulation
         this.logger.printf( this.theRoute.describe() ) ;
 
         }   // end logSnapshot()
-    
+
 
     /**
-     * Utility method to retrieve the current Statistic instance 
+     * Utility method to retrieve the current Statistic instance
      *
      * @return the current Statistic
      */
@@ -293,7 +291,7 @@ public final class TrainSimulation
         return this.statistics ;
 
         }   // end getStatistics()
-    
+
 
     /**
      * Utility method to report concluding statistics
@@ -301,6 +299,12 @@ public final class TrainSimulation
     private void reportStatistics()
         {
         // TODO implement this
+        
+        // displays statistics results to console
+        System.out.println( this.statistics.results() ) ;
+
+        // TODO print location of each train and how many are onboard
+        // TODO print each station and how many are waiting inbound/outbound
 
         }   // end statistics()
 
