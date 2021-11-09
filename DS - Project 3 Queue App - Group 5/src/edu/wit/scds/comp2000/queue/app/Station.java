@@ -118,6 +118,20 @@ public final class Station
         }   // end getLocation()
 
 
+    /**
+     * Retrieves the platforms for this station (Used in TrainSimulation to help
+     * Statistics class find out how many passengers are still waiting at stations
+     * when simulation ends)
+     *
+     * @return hash-map containing station platforms
+     */
+    public HashMap<Direction, Queue<Passenger>> getPlatforms()
+        {
+        return this.platforms ;
+
+        }   // end getId()
+
+
     /*
      * (non-Javadoc)
      * @see java.lang.Object#hashCode()
@@ -253,7 +267,7 @@ public final class Station
 
         // DONE accumulate statistics
         Station.simulationCallback.getStatistics()
-                                     .updateListOfPassengers( aPassenger ) ;
+                                  .updateListOfPassengers( aPassenger ) ;
 
         }   // end exit()
 
@@ -331,7 +345,7 @@ public final class Station
                                            platformSelector,
                                            Station.simulationCallback.getTrainRoute()
                                                                      .getStationAt( to ) ) ;
-     
+
         }   // end enter()
 
     // TODO complete this

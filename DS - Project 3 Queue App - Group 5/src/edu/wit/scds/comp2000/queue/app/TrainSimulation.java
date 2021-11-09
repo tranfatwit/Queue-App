@@ -299,12 +299,19 @@ public final class TrainSimulation
     private void reportStatistics()
         {
         // TODO implement this
-        
-        // displays statistics results to console
-        System.out.println( this.statistics.results() ) ;
 
-        // TODO print location of each train and how many are onboard
-        // TODO print each station and how many are waiting inbound/outbound
+        // sends all trains to statistics class
+        this.statistics.calculateStillOnTrains( getTrainRoute().getTrains() ) ;
+        // sends all stations to statistics class 
+        this.statistics.calculateStillAtStations( getTrainRoute().getStations() ) ;
+
+        System.out.println( this.statistics.results() ) ; // prints statistics to
+                                                          // console
+        this.logger.printf( this.statistics.results() ) ;// prints statistics to
+                                                         // logger
+
+        // TODO print location of each train and how many passengers are on-board
+        // TODO print each station and how many passengers are waiting on each platform
 
         }   // end statistics()
 

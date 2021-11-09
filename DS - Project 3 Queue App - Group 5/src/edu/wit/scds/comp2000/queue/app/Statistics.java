@@ -1,11 +1,18 @@
 
 package edu.wit.scds.comp2000.queue.app ;
 
+import edu.wit.scds.comp2000.queue.app.utilities.Direction ;
+
 import java.util.ArrayList ;
 import java.util.Arrays ;
+import java.util.HashMap ;
+import java.util.Queue ;
 
 /**
- * Class to manage wait, ride, and total time statistics for train simulation
+ * Class to manage statistics for train simulation. Current implementation calculates
+ * statistics using data from only passengers who completed their journey. Future
+ * implementation will take statistics of passenger still on platform and train into
+ * consideration.
  *
  * @author Fabio Tran
  * @version 1.0.0 2021-11-03 Initial implementation
@@ -16,27 +23,34 @@ public class Statistics
     /** indicates that the time has no meaningful value */
     public static int UNSPECIFIED = -1 ;
 
+    /**
+     * stores how many passengers are still at any station or train at the end of the
+     * simulation
+     */
+    private int stillAtStations ;
+    private int stillOnTrains ;
+
     private ArrayList<Passenger> listOfPassengers ; // stores passengers that
                                                     // completed their journeys
 
-    // stores valid wait, ride, and total times
+    /** stores valid wait, ride, and total times */
     private ArrayList<Integer> waitTimes ;
     private ArrayList<Integer> rideTimes ;
     private ArrayList<Integer> totalTimes ;
 
-    // stores values for wait time
+    /** stores wait time statistics */
     private int minWaitTime ;
     private int maxWaitTime ;
     private int medWaitTime ;
     private int avgWaitTime ;
 
-    // stores values for ride time
+    /** stores ride time statistics */
     private int minRideTime ;
     private int maxRideTime ;
     private int medRideTime ;
     private int avgRideTime ;
 
-    // stores values for total time
+    /** stores total time statistics */
     private int minTotalTime ;
     private int maxTotalTime ;
     private int medTotalTime ;
@@ -48,6 +62,9 @@ public class Statistics
     public Statistics()
         {
         // initialize fields that holds simulation statistics
+
+        this.stillAtStations = UNSPECIFIED ;
+        this.stillOnTrains = UNSPECIFIED ;
 
         this.listOfPassengers = new ArrayList<>() ;
         this.waitTimes = new ArrayList<>() ;
@@ -73,7 +90,47 @@ public class Statistics
 
 
     /**
-     * Adds passenger to ArrayList of passengers
+     * Calculates how many passengers are still at stations at end of the simulation
+     *
+     * @param stations
+     *     array of stations in the simulation
+     */
+    public void calculateStillAtStations( Station[] stations )
+        {
+        for ( Station station : stations )
+            {
+            HashMap<Direction, Queue<Passenger>> platforms = station.getPlatforms() ;
+
+            // goes through each platform and totals the amount of passengers still
+            // waiting at stations
+            for ( Queue<Passenger> platform : platforms.values() )
+                {
+                this.stillAtStations = this.stillAtStations + platform.size() ;
+                } // end for
+
+            } // end for
+
+        } // end calculateStillAtStations()
+
+
+    /**
+     * Calculates how many passengers are still on trains at end of the simulation
+     *
+     * @param trains
+     *     array of trains in the simulation
+     */
+    public void calculateStillOnTrains( Train[] trains )
+        {
+        for ( Train train : trains )
+            {
+            this.stillOnTrains = this.stillOnTrains + train.getPassengerCount() ;
+            } // end for
+
+        } // end calculateStillOnTrains()
+
+
+    /**
+     * Adds passenger to list of passengers
      *
      * @param passenger
      *     passenger to add to list
@@ -86,27 +143,43 @@ public class Statistics
 
 
     /**
-     * Puts all minimum, maximum, median, and average values for wait, ride, and
-     * total times into string form
+     * Displays all statistics into string form
      *
      * @return string
      */
     public String results()
         {
-        System.out.println( this.listOfPassengers.size() ) ; // DEBUG tool
-
-        // assigns all field values their appropriate value
-        calculateWaitTimeStats() ;
-        calculateRideTimeStats() ;
-        calculateTotalTimeStats() ;
+        // System.out.println( this.listOfPassengers.size() ) ; // DEBUG 
+        
+        // TODO uncomment code below once Train.java is fully implemented.
+        
+        // assigns all field values their appropriate value 
+        // calculateWaitTimeStats() ;
+        // calculateRideTimeStats() ;
+        // calculateTotalTimeStats() ;
 
         // returns values in string format
-        return String.format( "Minimum Wait Time: %s, Maximum Wait Time: %s, Median Wait Time: %s, Average Wait Time: %s",
+        return String.format( "Wait Time Statistics:%n    Minimum: %s, Maximum: %s, Median: %s, Average: %s%n" +
+                              "Ride Time Statistics:%n    Minimum: %s, Maximum: %s, Median: %s, Average: %s%n" +
+                              "Total Time Statistics:%n    Minimum: %s, Maximum: %s, Median: %s, Average: %s%n" +
+                              "Passengers still on trains: %s%n" +
+                              "Passengers still at stations: %s%n",
                               this.minWaitTime,
                               this.maxWaitTime,
                               this.medWaitTime,
-                              this.avgWaitTime ) ;
-        }
+                              this.avgWaitTime,
+                              this.minRideTime,
+                              this.maxRideTime,
+                              this.medRideTime,
+                              this.avgRideTime,
+                              this.minTotalTime,
+                              this.maxTotalTime,
+                              this.medTotalTime,
+                              this.avgTotalTime,
+                              this.stillOnTrains,
+                              this.stillAtStations ) ;
+
+        } // end results()
 
 
     /**
@@ -115,7 +188,7 @@ public class Statistics
      */
     private void calculateWaitTimeStats()
         {
-        getWaitTimes() ;
+        getWaitTimes() ; // gets valid wait times and stores in a list
 
         Object[] tempArray = this.waitTimes.toArray() ;
         Arrays.sort( tempArray ) ; // sorts array from smallest to largest times
@@ -141,7 +214,7 @@ public class Statistics
      */
     private void calculateRideTimeStats()
         {
-        getRideTimes() ;
+        getRideTimes() ; // gets valid ride times and stores in a list
 
         Object[] tempArray = this.rideTimes.toArray() ;
         Arrays.sort( tempArray ) ; // sorts array from smallest to largest times
@@ -167,7 +240,7 @@ public class Statistics
      */
     private void calculateTotalTimeStats()
         {
-        getTotalTimes() ;
+        getTotalTimes() ; // gets valid total times and stores in a list
 
         Object[] tempArray = this.totalTimes.toArray() ;
         Arrays.sort( tempArray ) ; // sorts array from smallest to largest times
@@ -195,9 +268,9 @@ public class Statistics
         // loops through list of passengers
         for ( Passenger element : this.listOfPassengers )
             {
-            System.out.println( element.getTimeWaiting() ) ; // DEBUG
+            // System.out.println( element.getTimeWaiting() ) ; // DEBUG
             // exit time not being -1 means that the passenger completed their
-            // journey so all of their fields have valid values
+            // journey so all of their fields have valid and useful values
             if ( element.getTimeExited() != -1 )
                 {
                 this.waitTimes.add( element.getTimeWaiting() ) ;
@@ -218,7 +291,7 @@ public class Statistics
         for ( Passenger element : this.listOfPassengers )
             {
             // exit time not being -1 means that the passenger completed their
-            // journey so all of their fields have valid values
+            // journey so all of their fields have valid and useful values
             if ( element.getTimeExited() != -1 )
                 {
                 this.rideTimes.add( element.getTimeRiding() ) ;
@@ -238,7 +311,7 @@ public class Statistics
         for ( Passenger element : this.listOfPassengers )
             {
             // exit time not being -1 means that the passenger completed their
-            // journey so all of their fields have valid values
+            // journey so all of their fields have valid and useful values
             if ( element.getTimeExited() != -1 )
                 {
                 this.totalTimes.add( element.getTotalTime() ) ;
@@ -310,14 +383,7 @@ public class Statistics
      */
     public static void main( String[] args )
         {
-        // ArrayList<Integer> list = new ArrayList<>() ;
-        // list.add( 3 ) ;
-        // list.add( 1 ) ;
-        // list.add( 2 ) ;
-        // list.add( 1 ) ;
-        // list.add( 100 ) ;
-        // System.out.println( calculateAverage(list)) ;
-        // System.out.println( medianComparison( list ) ) ;
+        // OPTIONAL to test code
 
         } // end main()
 
