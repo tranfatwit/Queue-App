@@ -146,6 +146,18 @@ public final class Train
         return this.passengers.size() ;
 
         }   // end getPassengerCount()
+    
+    
+    /**
+     * Retrieves passengers on the train 
+     * 
+     * @return the list of passengers on-board
+     */
+    public ArrayList<Passenger> getPassengerList()
+        {
+        return this.passengers ;
+
+        }   // end getPassengerList()
 
 
     /**

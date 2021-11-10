@@ -265,9 +265,15 @@ public final class Station
                                            aPassenger.getTimeRiding(),
                                            aPassenger.getTotalTime() ) ;
 
-        // DONE accumulate statistics
-        Station.simulationCallback.getStatistics()
-                                  .updateListOfPassengers( aPassenger ) ;
+        // DONE
+        Station.simulationCallback.getStatistics().getTimes( aPassenger ) ; // sends
+                                                                            // passenger
+                                                                            // times
+                                                                            // to
+                                                                            // statistics
+                                                                            // class
+                                                                            // for
+                                                                            // accumulation
 
         }   // end exit()
 

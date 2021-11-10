@@ -9,10 +9,10 @@ import java.util.HashMap ;
 import java.util.Queue ;
 
 /**
- * Class to manage statistics for train simulation. Current implementation calculates
- * statistics using data from only passengers who completed their journey. Future
- * implementation will take statistics of passenger still on platform and train into
- * consideration.
+ * Class to manage statistics for train simulation. Calculates the minimum, maximum,
+ * median, and average for wait, ride, and total times. In addition, it will also
+ * report the total number of remaining passengers at the stations or on the trains
+ * at the end of the simulation (passengers who did not complete their journey).
  *
  * @author Fabio Tran
  * @version 1.0.0 2021-11-03 Initial implementation
@@ -29,9 +29,6 @@ public class Statistics
      */
     private int stillAtStations ;
     private int stillOnTrains ;
-
-    private ArrayList<Passenger> listOfPassengers ; // stores passengers that
-                                                    // completed their journeys
 
     /** stores valid wait, ride, and total times */
     private ArrayList<Integer> waitTimes ;
@@ -66,7 +63,6 @@ public class Statistics
         this.stillAtStations = UNSPECIFIED ;
         this.stillOnTrains = UNSPECIFIED ;
 
-        this.listOfPassengers = new ArrayList<>() ;
         this.waitTimes = new ArrayList<>() ;
         this.rideTimes = new ArrayList<>() ;
         this.totalTimes = new ArrayList<>() ;
@@ -90,13 +86,44 @@ public class Statistics
 
 
     /**
+     * Calculates remaining passengers on trains and at stations. Also calculates
+     * wait, ride, and total time statistics since this method will be called when
+     * the simulation has concluded.
+     *
+     * @param stations
+     *     array of stations from simulation
+     * @param trains
+     *     array of trains from simulation
+     */
+    public void calculateStatistics( Station[] stations,
+                                     Train[] trains )
+        {
+        calculateStillAtStations( stations ) ; // remaining passengers at stations
+        calculateStillOnTrains( trains ) ; // remaining passengers on trains
+
+        // TODO uncomment code below once Train.java is fully implemented.
+        /** assigns all field values their appropriate statistical value */
+        // calculateWaitTimeStats() ;
+        // calculateRideTimeStats() ;
+        // calculateTotalTimeStats() ;
+        // calculateWaitTimeStats() ;
+        // calculateRideTimeStats() ;
+        // calculateTotalTimeStats() ;
+
+        } // end calculateStatistics()
+
+
+    /**
      * Calculates how many passengers are still at stations at end of the simulation
      *
      * @param stations
-     *     array of stations in the simulation
+     *     array of stations from the simulation
      */
     public void calculateStillAtStations( Station[] stations )
         {
+        this.stillAtStations = 0 ; // set to zero so for loop can properly accumulate
+                                   // passengers
+
         for ( Station station : stations )
             {
             HashMap<Direction, Queue<Passenger>> platforms = station.getPlatforms() ;
@@ -117,7 +144,7 @@ public class Statistics
      * Calculates how many passengers are still on trains at end of the simulation
      *
      * @param trains
-     *     array of trains in the simulation
+     *     array of trains from the simulation
      */
     public void calculateStillOnTrains( Train[] trains )
         {
@@ -130,16 +157,22 @@ public class Statistics
 
 
     /**
-     * Adds passenger to list of passengers
+     * Retrieves data fields with regards to times from passenger
      *
      * @param passenger
-     *     passenger to add to list
+     *     passenger to get times from
      */
-    public void updateListOfPassengers( Passenger passenger )
+    public void getTimes( Passenger passenger )
         {
-        this.listOfPassengers.add( passenger ) ;
+        // all of passenger's time values are meaningful if they exited simulation
+        if ( passenger.getTimeExited() != UNSPECIFIED )
+            {
+            this.waitTimes.add( passenger.getTimeWaiting() ) ;
+            this.rideTimes.add( passenger.getTimeRiding() ) ;
+            this.totalTimes.add( passenger.getTotalTime() ) ;
+            } // end if
 
-        } // end updateListOfPassengers()
+        } // end getTimes()
 
 
     /**
@@ -149,16 +182,7 @@ public class Statistics
      */
     public String results()
         {
-        // System.out.println( this.listOfPassengers.size() ) ; // DEBUG 
-        
-        // TODO uncomment code below once Train.java is fully implemented.
-        
-        // assigns all field values their appropriate value 
-        // calculateWaitTimeStats() ;
-        // calculateRideTimeStats() ;
-        // calculateTotalTimeStats() ;
-
-        // returns values in string format
+        // returns statistics in string format
         return String.format( "Wait Time Statistics:%n    Minimum: %s, Maximum: %s, Median: %s, Average: %s%n" +
                               "Ride Time Statistics:%n    Minimum: %s, Maximum: %s, Median: %s, Average: %s%n" +
                               "Total Time Statistics:%n    Minimum: %s, Maximum: %s, Median: %s, Average: %s%n" +
@@ -188,8 +212,6 @@ public class Statistics
      */
     private void calculateWaitTimeStats()
         {
-        getWaitTimes() ; // gets valid wait times and stores in a list
-
         Object[] tempArray = this.waitTimes.toArray() ;
         Arrays.sort( tempArray ) ; // sorts array from smallest to largest times
 
@@ -214,8 +236,6 @@ public class Statistics
      */
     private void calculateRideTimeStats()
         {
-        getRideTimes() ; // gets valid ride times and stores in a list
-
         Object[] tempArray = this.rideTimes.toArray() ;
         Arrays.sort( tempArray ) ; // sorts array from smallest to largest times
 
@@ -240,8 +260,6 @@ public class Statistics
      */
     private void calculateTotalTimeStats()
         {
-        getTotalTimes() ; // gets valid total times and stores in a list
-
         Object[] tempArray = this.totalTimes.toArray() ;
         Arrays.sort( tempArray ) ; // sorts array from smallest to largest times
 
@@ -258,68 +276,6 @@ public class Statistics
         this.avgTotalTime = calculateAverage( this.totalTimes ) ;
 
         } // end calculateTotalTimeStats()
-
-
-    /**
-     * Adds valid wait times to array list
-     */
-    private void getWaitTimes()
-        {
-        // loops through list of passengers
-        for ( Passenger element : this.listOfPassengers )
-            {
-            // System.out.println( element.getTimeWaiting() ) ; // DEBUG
-            // exit time not being -1 means that the passenger completed their
-            // journey so all of their fields have valid and useful values
-            if ( element.getTimeExited() != -1 )
-                {
-                this.waitTimes.add( element.getTimeWaiting() ) ;
-                System.out.println( "good" ) ;
-                } // end if
-
-            } // end for
-
-        } // end getWaitTimes()
-
-
-    /**
-     * Adds valid ride times to array list
-     */
-    private void getRideTimes()
-        {
-        // loops through list of passengers
-        for ( Passenger element : this.listOfPassengers )
-            {
-            // exit time not being -1 means that the passenger completed their
-            // journey so all of their fields have valid and useful values
-            if ( element.getTimeExited() != -1 )
-                {
-                this.rideTimes.add( element.getTimeRiding() ) ;
-                } // end if
-
-            } // end for
-
-        } // end getRideTimes()
-
-
-    /**
-     * Adds valid total times to array list
-     */
-    private void getTotalTimes()
-        {
-        // loops through list of passengers
-        for ( Passenger element : this.listOfPassengers )
-            {
-            // exit time not being -1 means that the passenger completed their
-            // journey so all of their fields have valid and useful values
-            if ( element.getTimeExited() != -1 )
-                {
-                this.totalTimes.add( element.getTotalTime() ) ;
-                } // end if
-
-            } // end for
-
-        } // end getTotalTimes()
 
 
     /**
