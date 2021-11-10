@@ -23,17 +23,17 @@ public class Statistics
     /** indicates that the time has no meaningful value */
     public static int UNSPECIFIED = -1 ;
 
+    /** stores valid wait, ride, and total times */
+    private ArrayList<Integer> waitTimes ;
+    private ArrayList<Integer> rideTimes ;
+    private ArrayList<Integer> totalTimes ;
+
     /**
      * stores how many passengers are still at any station or train at the end of the
      * simulation
      */
     private int stillAtStations ;
     private int stillOnTrains ;
-
-    /** stores valid wait, ride, and total times */
-    private ArrayList<Integer> waitTimes ;
-    private ArrayList<Integer> rideTimes ;
-    private ArrayList<Integer> totalTimes ;
 
     /** stores wait time statistics */
     private int minWaitTime ;
@@ -60,12 +60,12 @@ public class Statistics
         {
         // initialize fields that holds simulation statistics
 
-        this.stillAtStations = UNSPECIFIED ;
-        this.stillOnTrains = UNSPECIFIED ;
-
         this.waitTimes = new ArrayList<>() ;
         this.rideTimes = new ArrayList<>() ;
         this.totalTimes = new ArrayList<>() ;
+
+        this.stillAtStations = UNSPECIFIED ;
+        this.stillOnTrains = UNSPECIFIED ;
 
         this.minWaitTime = UNSPECIFIED ;
         this.maxWaitTime = UNSPECIFIED ;
@@ -87,8 +87,8 @@ public class Statistics
 
     /**
      * Calculates remaining passengers on trains and at stations. Also calculates
-     * wait, ride, and total time statistics since this method will be called when
-     * the simulation has concluded.
+     * final wait, ride, and total time statistics since this method will be called
+     * when the simulation has concluded.
      *
      * @param stations
      *     array of stations from simulation
@@ -148,6 +148,9 @@ public class Statistics
      */
     public void calculateStillOnTrains( Train[] trains )
         {
+        this.stillAtStations = 0 ; // set to zero so for loop can properly accumulate
+                                   // passengers
+
         for ( Train train : trains )
             {
             this.stillOnTrains = this.stillOnTrains + train.getPassengerCount() ;
@@ -285,7 +288,7 @@ public class Statistics
      *     list to search for median
      * @return median
      */
-    private int calculateMedian( ArrayList<Integer> list )
+    private static int calculateMedian( ArrayList<Integer> list )
         {
         int result ;
 
@@ -316,7 +319,7 @@ public class Statistics
      *     list to calculate average
      * @return average
      */
-    private int calculateAverage( ArrayList<Integer> list )
+    private static int calculateAverage( ArrayList<Integer> list )
         {
         int total = 0 ;
 
