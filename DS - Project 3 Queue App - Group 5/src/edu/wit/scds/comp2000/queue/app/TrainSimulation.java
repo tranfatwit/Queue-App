@@ -298,7 +298,7 @@ public final class TrainSimulation
      */
     private void reportStatistics()
         {
-        // DONE 
+        // DONE
         // sends all trains and stations to statistics class to calculate remaining
         // passengers in the simulation that did not complete their journey
         this.statistics.calculateStatistics( getTrainRoute().getStations(),
@@ -309,8 +309,8 @@ public final class TrainSimulation
         this.logger.printf( this.statistics.results() ) ;// prints final statistics
                                                          // to logger
 
-        // TODO print location of each train and how many passengers are on-board
-        // TODO print each station and how many passengers are waiting on each
+        // TODO print location of each train and how many passengers are on-board and
+        // print each station and how many passengers are waiting on each
         // platform
 
         }   // end statistics()
