@@ -121,8 +121,7 @@ public class Statistics
      */
     public void calculateStillAtStations( Station[] stations )
         {
-        this.stillAtStations = 0 ; // set to zero so for loop can properly accumulate
-                                   // passengers
+        int result = 0 ;
 
         for ( Station station : stations )
             {
@@ -132,10 +131,12 @@ public class Statistics
             // waiting at stations
             for ( Queue<Passenger> platform : platforms.values() )
                 {
-                this.stillAtStations = this.stillAtStations + platform.size() ;
+                result = result + platform.size() ;
                 } // end for
 
             } // end for
+
+        this.stillAtStations = result ;
 
         } // end calculateStillAtStations()
 
@@ -148,13 +149,14 @@ public class Statistics
      */
     public void calculateStillOnTrains( Train[] trains )
         {
-        this.stillAtStations = 0 ; // set to zero so for loop can properly accumulate
-                                   // passengers
+        int result = 0 ;
 
         for ( Train train : trains )
             {
-            this.stillOnTrains = this.stillOnTrains + train.getPassengerCount() ;
+            result = result + train.getPassengerCount() ;
             } // end for
+
+        this.stillOnTrains = result ;
 
         } // end calculateStillOnTrains()
 
