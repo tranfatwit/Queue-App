@@ -309,7 +309,7 @@ public final class TrainSimulation
         this.logger.printf( this.statistics.results() ) ;// prints final statistics
                                                          // to logger
 
-        // TODO print location of each train and how many passengers are on-board and
+        // Implementation: print location of each train and how many passengers are on-board and
         // print each station and how many passengers are waiting on each
         // platform
 

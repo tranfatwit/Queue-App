@@ -1,12 +1,8 @@
 
 package edu.wit.scds.comp2000.queue.app ;
 
-import edu.wit.scds.comp2000.queue.app.utilities.Direction ;
-
 import java.util.ArrayList ;
 import java.util.Arrays ;
-import java.util.HashMap ;
-import java.util.Queue ;
 
 /**
  * Class to manage statistics for train simulation. Calculates the minimum, maximum,
@@ -101,7 +97,6 @@ public class Statistics
         calculateStillAtStations( stations ) ; // remaining passengers at stations
         calculateStillOnTrains( trains ) ; // remaining passengers on trains
 
-        // TODO uncomment code below once Train.java is fully implemented.
         /** assigns all field values their appropriate statistical value */
         // calculateWaitTimeStats() ;
         // calculateRideTimeStats() ;
@@ -125,15 +120,7 @@ public class Statistics
 
         for ( Station station : stations )
             {
-            HashMap<Direction, Queue<Passenger>> platforms = station.getPlatforms() ;
-
-            // goes through each platform and totals the amount of passengers still
-            // waiting at stations
-            for ( Queue<Passenger> platform : platforms.values() )
-                {
-                result = result + platform.size() ;
-                } // end for
-
+            result = result + station.getPassengerCount() ;
             } // end for
 
         this.stillAtStations = result ;

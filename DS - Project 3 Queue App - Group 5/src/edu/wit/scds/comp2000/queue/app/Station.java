@@ -119,17 +119,22 @@ public final class Station
 
 
     /**
-     * Retrieves the platforms for this station (Used in TrainSimulation to help
-     * Statistics class find out how many passengers are still waiting at stations
-     * when simulation ends)
+     * Retrieves total number of passengers for this station
      *
-     * @return hash-map containing station platforms
+     * @return number of passengers for this station
      */
-    public HashMap<Direction, Queue<Passenger>> getPlatforms()
+    public int getPassengerCount()
         {
-        return this.platforms ;
+        int result = 0 ;
 
-        }   // end getId()
+        for ( Queue<Passenger> platform : this.platforms.values() )
+            {
+            result = result + platform.size() ;
+            } // end for
+
+        return result ;
+
+        }   // end getPassengerCount()
 
 
     /*
