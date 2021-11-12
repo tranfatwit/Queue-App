@@ -200,6 +200,7 @@ TrainRoute 1: Linear; length: 20
 	Train 6 is Outbound at position 20 on TrainRoute 1 at Station 5; capacity: 25; on-board: 0
 	Passengers: []
 
+Passengers who completed their journey: -1
 Wait Time Statistics:
     Minimum: -1, Maximum: -1, Median: -1, Average: -1
 Ride Time Statistics:

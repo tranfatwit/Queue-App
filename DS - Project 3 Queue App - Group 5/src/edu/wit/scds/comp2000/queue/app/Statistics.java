@@ -24,6 +24,9 @@ public class Statistics
     private ArrayList<Integer> rideTimes ;
     private ArrayList<Integer> totalTimes ;
 
+    /** stores how many passengers completed their journey */
+    private int completedJourneys ;
+
     /**
      * stores how many passengers are still at any station or train at the end of the
      * simulation
@@ -60,6 +63,8 @@ public class Statistics
         this.rideTimes = new ArrayList<>() ;
         this.totalTimes = new ArrayList<>() ;
 
+        this.completedJourneys = UNSPECIFIED ;
+
         this.stillAtStations = UNSPECIFIED ;
         this.stillOnTrains = UNSPECIFIED ;
 
@@ -83,8 +88,8 @@ public class Statistics
 
     /**
      * Calculates remaining passengers on trains and at stations. Also calculates
-     * final wait, ride, and total time statistics since this method will be called
-     * when the simulation has concluded.
+     * their final wait, ride, and total time statistics since this method will be
+     * called when the simulation has concluded.
      *
      * @param stations
      *     array of stations from simulation
@@ -98,12 +103,14 @@ public class Statistics
         calculateStillOnTrains( trains ) ; // remaining passengers on trains
 
         /** assigns all field values their appropriate statistical value */
-        // calculateWaitTimeStats() ;
-        // calculateRideTimeStats() ;
-        // calculateTotalTimeStats() ;
-        // calculateWaitTimeStats() ;
-        // calculateRideTimeStats() ;
-        // calculateTotalTimeStats() ;
+        // current version will throw an index out of bounds exception because
+        // train class isn't fully implemented yet to board passengers
+        calculateWaitTimeStats() ;
+        calculateRideTimeStats() ;
+        calculateTotalTimeStats() ;
+        calculateWaitTimeStats() ;
+        calculateRideTimeStats() ;
+        calculateTotalTimeStats() ;
 
         } // end calculateStatistics()
 
@@ -168,6 +175,16 @@ public class Statistics
 
 
     /**
+     * Increments total completed journeys
+     */
+    public void updateCompletedJourneys()
+        {
+        this.completedJourneys++ ;
+
+        } // end updateCompletedJourneys()
+
+
+    /**
      * Displays all statistics into string form
      *
      * @return string
@@ -175,11 +192,13 @@ public class Statistics
     public String results()
         {
         // returns statistics in string format
-        return String.format( "Wait Time Statistics:%n    Minimum: %s, Maximum: %s, Median: %s, Average: %s%n" +
+        return String.format( "Passengers who completed their journey: %s%n" +
+                              "Wait Time Statistics:%n    Minimum: %s, Maximum: %s, Median: %s, Average: %s%n" +
                               "Ride Time Statistics:%n    Minimum: %s, Maximum: %s, Median: %s, Average: %s%n" +
                               "Total Time Statistics:%n    Minimum: %s, Maximum: %s, Median: %s, Average: %s%n" +
                               "Passengers still on trains: %s%n" +
                               "Passengers still at stations: %s%n",
+                              this.completedJourneys,
                               this.minWaitTime,
                               this.maxWaitTime,
                               this.medWaitTime,

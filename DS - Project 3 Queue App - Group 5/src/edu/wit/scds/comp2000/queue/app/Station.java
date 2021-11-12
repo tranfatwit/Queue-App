@@ -279,6 +279,11 @@ public final class Station
                                                                             // class
                                                                             // for
                                                                             // accumulation
+        Station.simulationCallback.getStatistics().updateCompletedJourneys() ; // increments
+                                                                               // completed
+                                                                               // journeys
+                                                                               // by
+                                                                               // one
 
         }   // end exit()
 
